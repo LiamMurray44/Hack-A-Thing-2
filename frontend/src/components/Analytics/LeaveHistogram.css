@@ -1,0 +1,278 @@
+/* Written by Claude Code on 2026-01-29
+   User prompt: Create histogram showing upcoming leaves by month */
+
+.histogram-container {
+  padding: 2rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.histogram-header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.histogram-header h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.histogram-subtitle {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.histogram-empty {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #6b7280;
+}
+
+.empty-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.histogram-empty p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+}
+
+.empty-hint {
+  font-size: 0.875rem;
+  color: #9ca3af;
+}
+
+.histogram-chart {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-end;
+  min-height: 350px;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: linear-gradient(to top, #f9fafb 0%, white 100%);
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.histogram-y-axis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-right: 0.75rem;
+  border-right: 2px solid #d1d5db;
+  height: 300px;
+  min-width: 40px;
+}
+
+.y-axis-label {
+  font-size: 0.75rem;
+  color: #6b7280;
+  font-weight: 600;
+}
+
+.histogram-bars {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-end;
+  flex: 1;
+  height: 300px;
+  padding: 0 1rem;
+}
+
+.histogram-bar-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  min-width: 60px;
+}
+
+.bar-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.histogram-bar {
+  width: 100%;
+  max-width: 60px;
+  background: linear-gradient(180deg, #3b82f6 0%, #1e40af 100%);
+  border-radius: 6px 6px 0 0;
+  position: relative;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(59, 130, 246, 0.2);
+  cursor: pointer;
+  animation: growBar 0.6s ease-out forwards;
+  opacity: 0;
+  transform: scaleY(0);
+  transform-origin: bottom;
+  min-height: 8px;
+}
+
+.histogram-bar.empty-bar {
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px 4px 0 0;
+  box-shadow: none;
+  cursor: default;
+  min-height: 8px;
+  opacity: 1;
+  transform: scaleY(1);
+}
+
+.histogram-bar.empty-bar:hover {
+  background: #f3f4f6;
+  box-shadow: none;
+}
+
+@keyframes growBar {
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+.histogram-bar:hover {
+  box-shadow: 0 8px 12px rgba(59, 130, 246, 0.4);
+}
+
+.histogram-bar:hover .bar-fill {
+  background: linear-gradient(180deg, rgba(37, 99, 235, 0.95) 0%, rgba(30, 58, 138, 1) 100%);
+}
+
+.bar-value-top {
+  position: absolute;
+  top: -1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: #1e40af;
+  background: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+  z-index: 2;
+}
+
+.bar-fill {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  background: linear-gradient(180deg, rgba(59, 130, 246, 0.95) 0%, rgba(30, 64, 175, 1) 100%);
+  border-radius: 6px 6px 0 0;
+}
+
+.bar-label {
+  margin-top: 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #374151;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.bar-tooltip {
+  position: absolute;
+  bottom: 110%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1f2937;
+  color: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 10;
+  min-width: 200px;
+  max-width: 300px;
+}
+
+.histogram-bar-container:hover .bar-tooltip {
+  opacity: 1;
+}
+
+.bar-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 8px solid transparent;
+  border-top-color: #1f2937;
+}
+
+.tooltip-header {
+  font-weight: 700;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+  color: #60a5fa;
+}
+
+.tooltip-count {
+  font-size: 0.75rem;
+  margin-bottom: 0.75rem;
+  color: #9ca3af;
+}
+
+.tooltip-employees {
+  border-top: 1px solid #374151;
+  padding-top: 0.75rem;
+}
+
+.tooltip-employee {
+  font-size: 0.75rem;
+  padding: 0.25rem 0;
+  color: #d1d5db;
+}
+
+.histogram-legend {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.legend-icon {
+  font-size: 1.25rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .histogram-bars {
+    gap: 0.75rem;
+  }
+
+  .histogram-bar {
+    max-width: 50px;
+  }
+
+  .histogram-legend {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}

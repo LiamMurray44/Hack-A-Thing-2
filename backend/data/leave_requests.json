@@ -1,0 +1,164 @@
+[
+  {
+    "id": "req-13aa98f5",
+    "employee": {
+      "name": "Jane Doe",
+      "ssn_last4": "1234",
+      "phone": "5555555555",
+      "email": "jane.doe@example.com"
+    },
+    "leave": {
+      "start_date": "2025-02-20",
+      "end_date": "2025-04-01",
+      "intermittent": false,
+      "condition_type": "serious"
+    },
+    "medical_provider": {
+      "name": "Dr. John Smith",
+      "phone": null,
+      "signature_present": false,
+      "date_signed": null
+    },
+    "compliance_flags": [
+      "missing_physician_phone"
+    ],
+    "status": "pending",
+    "notice_date": "2026-01-29",
+    "created_at": "2026-01-29"
+  },
+  {
+    "id": "req-e37ec0dc",
+    "employee": {
+      "name": "Jane Doe",
+      "ssn_last4": "1234",
+      "phone": "(555) 555-5555",
+      "email": null
+    },
+    "leave": {
+      "start_date": "2026-01-27",
+      "end_date": "2026-04-01",
+      "intermittent": false,
+      "condition_type": "serious"
+    },
+    "medical_provider": {
+      "name": "Dr. John Smith",
+      "phone": null,
+      "signature_present": true,
+      "date_signed": "2025-01-20"
+    },
+    "compliance_flags": [
+      "missing_physician_phone"
+    ],
+    "status": "pending",
+    "notice_date": "2026-01-29",
+    "created_at": "2026-01-29"
+  },
+  {
+    "id": "req-83bd48fd",
+    "employee": {
+      "name": "Jane Doe",
+      "ssn_last4": "1234",
+      "phone": "(555) 555-5555",
+      "email": null
+    },
+    "leave": {
+      "start_date": "2025-10-01",
+      "end_date": "2025-12-01",
+      "intermittent": false,
+      "condition_type": "serious"
+    },
+    "medical_provider": {
+      "name": "Dr. John Smith",
+      "phone": null,
+      "signature_present": true,
+      "date_signed": "2025-09-20"
+    },
+    "compliance_flags": [
+      "missing_physician_phone"
+    ],
+    "status": "pending",
+    "notice_date": "2026-01-29",
+    "created_at": "2026-01-29"
+  },
+  {
+    "id": "req-7ba92748",
+    "employee": {
+      "name": "Jane Doe",
+      "ssn_last4": "1234",
+      "phone": "(555) 555-5555",
+      "email": null
+    },
+    "leave": {
+      "start_date": "2026-10-01",
+      "end_date": "2026-12-01",
+      "intermittent": false,
+      "condition_type": "serious"
+    },
+    "medical_provider": {
+      "name": "Dr. John Smith",
+      "phone": null,
+      "signature_present": true,
+      "date_signed": "2025-09-20"
+    },
+    "compliance_flags": [
+      "missing_physician_phone"
+    ],
+    "status": "pending",
+    "notice_date": "2026-01-29",
+    "created_at": "2026-01-29"
+  },
+  {
+    "id": "req-ba16ae26",
+    "employee": {
+      "name": "Jane Doe",
+      "ssn_last4": "1234",
+      "phone": "(555) 555-5555",
+      "email": null
+    },
+    "leave": {
+      "start_date": "2026-05-01",
+      "end_date": "2026-07-01",
+      "intermittent": false,
+      "condition_type": "serious"
+    },
+    "medical_provider": {
+      "name": "Dr. John Smith",
+      "phone": null,
+      "signature_present": true,
+      "date_signed": "2025-09-20"
+    },
+    "compliance_flags": [
+      "missing_physician_phone"
+    ],
+    "status": "pending",
+    "notice_date": "2026-01-29",
+    "created_at": "2026-01-29"
+  },
+  {
+    "id": "req-d414fca7",
+    "employee": {
+      "name": "Jane Doe",
+      "ssn_last4": "1234",
+      "phone": "(555) 555-5555",
+      "email": null
+    },
+    "leave": {
+      "start_date": "2026-10-01",
+      "end_date": "2026-12-01",
+      "intermittent": false,
+      "condition_type": "serious"
+    },
+    "medical_provider": {
+      "name": "Dr. John Smith",
+      "phone": null,
+      "signature_present": true,
+      "date_signed": "2025-09-20"
+    },
+    "compliance_flags": [
+      "missing_physician_phone"
+    ],
+    "status": "pending",
+    "notice_date": "2026-01-29",
+    "created_at": "2026-01-29"
+  }
+]

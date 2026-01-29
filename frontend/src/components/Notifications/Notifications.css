@@ -1,0 +1,165 @@
+/* Written by Claude Code on 2026-01-29
+   User prompt: Implement FMLA Deadline & Timeline Tracker Prototype */
+
+.notifications-list-container {
+  padding: 1.5rem;
+}
+
+.notifications-header {
+  margin-bottom: 1.5rem;
+}
+
+.notifications-header h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 0.5rem 0;
+}
+
+.notifications-subtitle {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+.notifications-filter {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 0.5rem 1rem;
+  border: 1px solid #d1d5db;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: #374151;
+  transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+  background: #f3f4f6;
+}
+
+.filter-btn.active {
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
+
+.notifications-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.notification-card {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #3b82f6;
+  transition: all 0.2s ease;
+}
+
+.notification-card.unread {
+  background: #eff6ff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.notification-card:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.notification-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.notification-type-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: white;
+}
+
+.notification-date {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.notification-email {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  font-family: 'Courier New', monospace;
+  font-size: 0.875rem;
+}
+
+.email-from,
+.email-to,
+.email-subject {
+  margin-bottom: 0.5rem;
+  color: #374151;
+}
+
+.email-from:last-child,
+.email-to:last-child,
+.email-subject:last-child {
+  margin-bottom: 0;
+}
+
+.notification-body {
+  color: #1f2937;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  font-size: 0.875rem;
+}
+
+.notification-body p {
+  margin: 0.5rem 0;
+}
+
+.notification-actions {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-mark-read {
+  padding: 0.5rem 1rem;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.btn-mark-read:hover {
+  background: #2563eb;
+}
+
+.notifications-loading,
+.notifications-error,
+.notifications-empty {
+  text-align: center;
+  padding: 3rem;
+  color: #6b7280;
+}
+
+.notifications-error {
+  color: #dc2626;
+}

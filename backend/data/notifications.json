@@ -1,0 +1,52 @@
+[
+  {
+    "id": "ce5c59b5-e4ac-47c7-a774-a0e913079fbd",
+    "request_id": "req-13aa98f5",
+    "type": "certification_due",
+    "recipient": "jane.doe@example.com",
+    "subject": "FMLA Certification Due in 3 Days",
+    "body": "Dear Jane Doe,\n\nThis is a reminder that your FMLA medical certification is due by 2025-02-20.\n\nPlease ensure that your healthcare provider completes and submits the medical certification form by this deadline. The certification must include:\n- Your medical condition details\n- Expected duration of leave\n- Healthcare provider's signature and contact information\n\nIf you have any questions, please contact HR.\n\nBest regards,\nFMLA Compliance Team",
+    "created_at": "2026-01-29T15:13:23.896523",
+    "read_status": true
+  },
+  {
+    "id": "e4096efd-24cd-470b-9acb-ec62d2c17df9",
+    "request_id": "req-13aa98f5",
+    "type": "certification_due",
+    "recipient": "jane.doe@example.com",
+    "subject": "FMLA Certification Due in 3 Days",
+    "body": "Dear Jane Doe,\n\nThis is a reminder that your FMLA medical certification is due by 2025-02-20.\n\nPlease ensure that your healthcare provider completes and submits the medical certification form by this deadline. The certification must include:\n- Your medical condition details\n- Expected duration of leave\n- Healthcare provider's signature and contact information\n\nIf you have any questions, please contact HR.\n\nBest regards,\nFMLA Compliance Team",
+    "created_at": "2026-01-29T15:14:11.415095",
+    "read_status": true
+  },
+  {
+    "id": "b7dc04eb-5e50-4ea9-852a-9f76f0b37028",
+    "request_id": "req-e37ec0dc",
+    "type": "certification_due",
+    "recipient": "1234@example.com",
+    "subject": "FMLA Certification Due in 3 Days",
+    "body": "Dear Jane Doe,\n\nThis is a reminder that your FMLA medical certification is due by 2026-01-27.\n\nPlease ensure that your healthcare provider completes and submits the medical certification form by this deadline. The certification must include:\n- Your medical condition details\n- Expected duration of leave\n- Healthcare provider's signature and contact information\n\nIf you have any questions, please contact HR.\n\nBest regards,\nFMLA Compliance Team",
+    "created_at": "2026-01-29T15:14:41.751754",
+    "read_status": false
+  },
+  {
+    "id": "e0d76080-9b2f-48b7-a42f-32c415b8424d",
+    "request_id": "req-e37ec0dc",
+    "type": "missing_docs",
+    "recipient": "1234@example.com",
+    "subject": "Missing Documentation for FMLA Leave Request",
+    "body": "Dear Jane Doe,\n\nYour FMLA leave request is missing required documentation.\n\nPlease provide the following as soon as possible:\n\n- missing_physician_phone\n\nYour leave request cannot be processed until all required documentation is received.\n\nContact HR if you need assistance obtaining these documents.\n\nBest regards,\nFMLA Compliance Team",
+    "created_at": "2026-01-29T15:14:58.457269",
+    "read_status": false
+  },
+  {
+    "id": "f750cb7b-1516-4665-8513-9d169fa73ba3",
+    "request_id": "req-13aa98f5",
+    "type": "cure_window",
+    "recipient": "jane.doe@example.com",
+    "subject": "Action Required: 7-Day Cure Window for FMLA Certification",
+    "body": "Dear Jane Doe,\n\nYour FMLA medical certification has been reviewed and is incomplete or missing required information.\n\nYou have 7 calendar days (until 2025-02-27) to provide the following:\n\n- missing_physician_phone\n\nThis is your final opportunity to submit complete documentation. If the required information is not received by 2025-02-27, your FMLA leave request may be denied.\n\nPlease contact HR immediately if you have questions.\n\nBest regards,\nFMLA Compliance Team",
+    "created_at": "2026-01-29T18:54:22.727097",
+    "read_status": false
+  }
+]
