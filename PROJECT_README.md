@@ -1,6 +1,7 @@
 # FMLA Deadline & Timeline Tracker Prototype
 
 Written by Claude Code on 2026-01-29
+Database Integration Added: 2026-01-30
 User prompt: Implement FMLA Deadline & Timeline Tracker Prototype
 
 ## Overview
@@ -9,11 +10,14 @@ This prototype demonstrates FMLA (Family and Medical Leave Act) compliance track
 
 **Core Question Answered**: Can we model FMLA compliance logic correctly?
 
+**Version 0.2.0** adds SQLAlchemy-based database persistence with SQLite for development and PostgreSQL support for production.
+
 ## Technology Stack
 
-- **Backend**: Python 3 + FastAPI
-- **Frontend**: React
-- **Data Storage**: JSON files (file-based storage for prototype)
+- **Backend**: Python 3.11+ + FastAPI + Pydantic
+- **Frontend**: React 19
+- **Database**: SQLAlchemy 2.0 + SQLite (dev) / PostgreSQL (prod) 🆕
+- **Data Storage**: Database with JSON fallback option
 - **Email**: In-app notification preview (notifications displayed in UI, not actually sent)
 
 ## Features
@@ -71,12 +75,17 @@ Hack-A-Thing-2/
 ├── backend/
 │   ├── app/
 │   │   ├── main.py                           # FastAPI entry point
-│   │   ├── models/                           # Pydantic data models
+│   │   ├── config.py                         # 🆕 Configuration management
+│   │   ├── models/                           # Pydantic data models (API layer)
 │   │   │   ├── employee.py
 │   │   │   ├── leave_request.py
 │   │   │   ├── timeline_event.py
 │   │   │   ├── compliance.py
 │   │   │   └── notification.py
+│   │   ├── db/                               # 🆕 Database layer (SQLAlchemy)
+│   │   │   ├── __init__.py
+│   │   │   ├── database.py                   # Engine, session, Base
+│   │   │   └── models.py                     # ORM models
 │   │   ├── services/                         # Business logic
 │   │   │   ├── deadline_calculator.py        # ⭐ Core deadline calculations
 │   │   │   ├── timeline_generator.py
@@ -86,15 +95,22 @@ Hack-A-Thing-2/
 │   │   │   ├── leave_requests.py
 │   │   │   ├── timeline.py
 │   │   │   └── notifications.py
-│   │   ├── storage/
-│   │   │   └── json_storage.py
+│   │   ├── storage/                          # Storage layer
+│   │   │   ├── db_storage.py                 # 🆕 Database storage
+│   │   │   ├── json_storage.py               # JSON fallback
+│   │   │   └── storage_factory.py            # 🆕 Storage factory
 │   │   └── utils/
 │   │       └── date_utils.py
+│   ├── scripts/                              # 🆕 Utility scripts
+│   │   ├── migrate_json_to_db.py             # Data migration
+│   │   └── test_database.py                  # DB integration tests
 │   ├── tests/
 │   │   └── test_deadline_calculator.py       # ⭐ 24 passing tests
-│   ├── data/                                 # JSON storage
-│   │   ├── leave_requests.json
-│   │   └── notifications.json
+│   ├── data/                                 # Database & JSON files
+│   │   ├── fmla_tracker.db                   # 🆕 SQLite database
+│   │   ├── leave_requests.json               # JSON fallback
+│   │   └── notifications.json                # JSON fallback
+│   ├── .env.example                          # 🆕 Config template
 │   └── requirements.txt
 │
 ├── frontend/

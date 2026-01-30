@@ -1,8 +1,11 @@
 # FMLA Deadline & Timeline Tracker - Hack-A-Thing 2
 
 **Written by Claude Code on 2026-01-29**
+**Database Integration Added: 2026-01-30**
 
 A prototype system demonstrating FMLA (Family and Medical Leave Act) compliance tracking through automated deadline calculations, visual timelines, and email notification previews.
+
+**Version 0.2.0** introduces SQLAlchemy-based database persistence with SQLite for development and PostgreSQL support for production.
 
 ## 🎯 Project Goal
 
@@ -45,11 +48,20 @@ This prototype proves that complex FMLA deadline rules can be accurately impleme
 - Full email formatting (subject, to/from, body)
 
 
-### 5. Details 
+### 5. Details
 - Showcases leave status, start, and return date
 - Displays FMLA eligibility
 - Features state that the employee is from
 - Status color, showing if the employee has been approved, denied, waiting for documents, or pending approval
+
+### 6. **Database Persistence** 🆕
+- SQLAlchemy ORM with SQLite (development) / PostgreSQL (production)
+- ACID transactions for data integrity
+- Foreign key relationships with cascade delete
+- Indexes on frequently queried fields for performance
+- JSON columns for embedded objects (employee, leave, medical_provider)
+- Feature flag for safe rollback to JSON storage
+- Connection pooling support for production
 
 ## 🚀 Quick Start
 
@@ -64,11 +76,29 @@ This prototype proves that complex FMLA deadline rules can be accurately impleme
 cd backend
 python3 -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
-pip install -r requirements.txt python-dateutil
+pip install -r requirements.txt
+```
+
+#### Configure Database (First Time Only)
+
+```bash
+# Copy environment configuration
+cp .env.example .env
+
+# Run database migration (if you have existing JSON data)
+python scripts/migrate_json_to_db.py
+```
+
+#### Start Server
+
+```bash
 uvicorn app.main:app --reload
+# or: python -m uvicorn app.main:app --reload
 ```
 
 Backend runs at: **http://localhost:8000**
+
+The database is automatically initialized on startup. By default, uses SQLite at `backend/data/fmla_tracker.db`.
 
 ### 2. Verify Backend Tests
 
@@ -133,12 +163,17 @@ Frontend opens at: **http://localhost:3000**
 ## 🏗️ Architecture
 
 ```
-Frontend (React)          Backend (FastAPI)         Storage
-    │                          │                       │
-    ├─ Dashboard ──────────────┼─ Leave Requests API ─┼─ leave_requests.json
-    ├─ Timeline ───────────────┼─ Timeline API ────────┤
-    ├─ Notifications ──────────┼─ Notifications API ──┼─ notifications.json
-    └─ Alerts ─────────────────┼─ Compliance Checker ─┘
+Frontend (React)          Backend (FastAPI)              Database
+    │                          │                            │
+    ├─ Dashboard ──────────────┼─ Leave Requests API ──────┼─ leave_requests (table)
+    ├─ Timeline ───────────────┼─ Timeline API ─────────────┤
+    ├─ Notifications ──────────┼─ Notifications API ───────┼─ notifications (table)
+    └─ Alerts ─────────────────┼─ Compliance Checker ──────┘
+                               │
+                               ├─ Storage Layer:            SQLite (dev)
+                               │  • DBStorage ⭐             PostgreSQL (prod)
+                               │  • StorageFactory
+                               │  • JSONStorage (fallback)
                                │
                                └─ Services:
                                   • DeadlineCalculator ⭐
@@ -287,7 +322,7 @@ Chronic condition: Every 6 months
 ## 🔮 Future Enhancements
 
 **For Production:**
-- PostgreSQL database (replace JSON files)
+- ~~PostgreSQL database (replace JSON files)~~ ✅ **Implemented in v0.2.0**
 - User authentication & authorization
 - Actual email sending (SMTP/SendGrid)
 - Document upload with OCR
@@ -302,9 +337,11 @@ Chronic condition: Every 6 months
 
 | Component | Technology |
 |-----------|-----------|
-| Backend | Python 3.11, FastAPI, Pydantic |
-| Frontend | React, Axios, date-fns |
-| Storage | JSON files (prototype) |
+| Backend | Python 3.11+, FastAPI, Pydantic |
+| Frontend | React 19, Axios, date-fns |
+| Database | SQLAlchemy 2.0, SQLite (dev), PostgreSQL (prod) |
+| Storage | DBStorage with JSON fallback |
+| Migrations | Alembic (optional) |
 | Testing | pytest |
 | API Docs | Swagger/OpenAPI (built-in) |
 
@@ -315,13 +352,26 @@ Hack-A-Thing-2/
 ├── backend/
 │   ├── app/
 │   │   ├── main.py                    # FastAPI app
-│   │   ├── models/                    # Data models
+│   │   ├── config.py                  # Configuration 🆕
+│   │   ├── models/                    # Pydantic models
+│   │   ├── db/                        # Database (SQLAlchemy) 🆕
+│   │   │   ├── database.py           # Engine & session
+│   │   │   └── models.py             # ORM models
 │   │   ├── services/                  # Business logic ⭐
 │   │   ├── api/routes/                # REST endpoints
-│   │   ├── storage/                   # JSON persistence
+│   │   ├── storage/                   # Storage layer 🆕
+│   │   │   ├── db_storage.py         # Database storage
+│   │   │   ├── json_storage.py       # JSON fallback
+│   │   │   └── storage_factory.py    # Factory pattern
 │   │   └── utils/                     # Date utilities
+│   ├── scripts/                       # Utility scripts 🆕
+│   │   ├── migrate_json_to_db.py     # Data migration
+│   │   └── test_database.py          # DB integration tests
 │   ├── tests/                         # Unit tests ⭐
-│   └── data/                          # JSON storage
+│   ├── data/                          # Database & JSON files
+│   │   └── fmla_tracker.db           # SQLite database 🆕
+│   ├── .env.example                   # Config template 🆕
+│   └── .env                           # Local config (gitignored)
 │
 ├── frontend/
 │   ├── src/
@@ -340,13 +390,105 @@ Hack-A-Thing-2/
 └── test_api.sh                        # API integration test
 ```
 
+## 🗄️ Database Configuration
+
+### Default Setup (SQLite)
+
+The system uses SQLite by default, which requires no additional setup. The database file is automatically created at `backend/data/fmla_tracker.db`.
+
+### Environment Variables
+
+Configure database settings in `backend/.env`:
+
+```bash
+# Database URL (SQLite - default)
+DATABASE_URL=sqlite:///./data/fmla_tracker.db
+
+# For PostgreSQL (production)
+# DATABASE_URL=postgresql://user:password@localhost:5432/fmla_tracker
+
+# Feature flag (toggle between database and JSON files)
+USE_DATABASE=true
+
+# Environment
+ENVIRONMENT=development
+DEBUG=true
+```
+
+### PostgreSQL Setup (Production)
+
+1. **Create database:**
+   ```sql
+   CREATE DATABASE fmla_tracker;
+   CREATE USER fmla_user WITH PASSWORD 'secure_password';
+   GRANT ALL PRIVILEGES ON DATABASE fmla_tracker TO fmla_user;
+   ```
+
+2. **Install PostgreSQL driver:**
+   ```bash
+   pip install psycopg2-binary
+   ```
+
+3. **Update `.env`:**
+   ```bash
+   DATABASE_URL=postgresql://fmla_user:secure_password@localhost:5432/fmla_tracker
+   ```
+
+4. **Restart backend** - tables are created automatically
+
+### Migration from JSON
+
+If you have existing JSON data:
+
+```bash
+cd backend
+python scripts/migrate_json_to_db.py
+```
+
+This migrates all leave requests and notifications from JSON files to the database.
+
+### Rollback to JSON Storage
+
+To disable database and use JSON files:
+
+```bash
+# In backend/.env
+USE_DATABASE=false
+```
+
+Restart the backend - it will use `leave_requests.json` and `notifications.json`.
+
+## 🗃️ Database Schema
+
+### Tables
+
+**leave_requests**
+- Stores FMLA leave requests
+- JSON columns for employee, leave, medical_provider (embedded objects)
+- Indexes on: id, status, created_at
+- Enum constraints for status values
+
+**notifications**
+- Email notifications linked to leave requests
+- Foreign key to leave_requests with CASCADE DELETE
+- Indexes on: id, request_id, type, read_status, created_at
+
+### Key Features
+
+- ✅ ACID transactions for data integrity
+- ✅ Foreign key relationships (cascade delete)
+- ✅ Optimized indexes for query performance
+- ✅ JSON columns for flexible embedded objects
+- ✅ Automatic timestamps (created_at, updated_at)
+- ✅ Connection pooling for PostgreSQL
+
 ## 🐛 Known Limitations (Prototype)
 
 - No user authentication
-- JSON file storage only (no database)
+- ~~JSON file storage only (no database)~~ ✅ **Database integration added in v0.2.0**
 - Notifications displayed in UI (not sent)
 - No document upload (JSON input only)
-- Single-user system
+- Single-user system (but supports concurrent access with database)
 - No production error handling
 - No audit logging
 
