@@ -27,6 +27,7 @@ This prototype proves that complex FMLA deadline rules can be accurately impleme
   - 🟢 Green = Completed
 - Hover tooltips with event details
 
+
 ### 3. **Compliance Alerts**
 - Real-time at-risk detection
 - Risk levels: High / Medium / Low
@@ -42,6 +43,13 @@ This prototype proves that complex FMLA deadline rules can be accurately impleme
   - Approval/Denial notices
   - Missing documentation alerts
 - Full email formatting (subject, to/from, body)
+
+
+### 5. Details 
+- Showcases leave status, start, and return date
+- Displays FMLA eligibility
+- Features state that the employee is from
+- Status color, showing if the employee has been approved, denied, waiting for documents, or pending approval
 
 ## 🚀 Quick Start
 
