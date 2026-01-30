@@ -1,29 +1,33 @@
 # Written by Claude Code on 2026-01-29
 # User prompt: Implement FMLA Deadline & Timeline Tracker Prototype
+# Updated on 2026-01-30: Added database support with dependency injection
 
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, status, Depends
+from sqlalchemy.orm import Session
 
 from ...models.timeline_event import TimelineEvent
 from ...models.compliance import ComplianceStatus
 from ...models.leave_request import LeaveRequest
-from ...storage.json_storage import JSONStorage
+from ...db.database import get_db
+from ...storage.storage_factory import get_storage
 from ...services.timeline_generator import TimelineGenerator
 from ...services.compliance_checker import ComplianceChecker
 
 router = APIRouter(prefix="/api/timeline", tags=["timeline"])
-storage = JSONStorage()
 timeline_gen = TimelineGenerator()
 compliance_checker = ComplianceChecker()
 
 
 @router.get("/{request_id}", response_model=list[TimelineEvent])
-async def get_timeline(request_id: str):
+async def get_timeline(request_id: str, db: Session = Depends(get_db)):
     """
     Get complete timeline for a leave request.
 
     Returns all timeline events (leave start/end, deadlines, cure window, etc.)
     sorted by date with status indicators.
     """
+    storage = get_storage(db)
+
     # Get the leave request
     request_data = storage.get_leave_request_by_id(request_id)
     if not request_data:
@@ -41,7 +45,7 @@ async def get_timeline(request_id: str):
 
 
 @router.get("/{request_id}/compliance", response_model=ComplianceStatus)
-async def get_compliance_status(request_id: str):
+async def get_compliance_status(request_id: str, db: Session = Depends(get_db)):
     """
     Get compliance status for a leave request.
 
@@ -51,6 +55,8 @@ async def get_compliance_status(request_id: str):
     - Whether in cure window
     - Risk level
     """
+    storage = get_storage(db)
+
     # Get the leave request
     request_data = storage.get_leave_request_by_id(request_id)
     if not request_data:
@@ -68,13 +74,15 @@ async def get_compliance_status(request_id: str):
 
 
 @router.get("/alerts/all", response_model=list[dict])
-async def get_all_alerts():
+async def get_all_alerts(db: Session = Depends(get_db)):
     """
     Get all at-risk alerts across all leave requests.
 
     Returns list of requests with approaching or overdue deadlines,
     sorted by risk level and urgency.
     """
+    storage = get_storage(db)
+
     # Get all leave requests
     requests_data = storage.get_all_leave_requests()
     requests = [LeaveRequest(**data) for data in requests_data]

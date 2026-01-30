@@ -1,9 +1,14 @@
 # Written by Claude Code on 2026-01-29
 # User prompt: Implement FMLA Deadline & Timeline Tracker Prototype
+# Updated on 2026-01-30: Added database dependencies (SQLAlchemy, Alembic)
 
 fastapi>=0.110.0
 uvicorn[standard]>=0.27.0
 pydantic>=2.6.0
+pydantic-settings>=2.1.0
+sqlalchemy>=2.0.25
+alembic>=1.13.1
 pytest>=8.0.0
 holidays>=0.40
 python-multipart
+# psycopg2-binary>=2.9.9  # Optional: Required for PostgreSQL support (production)

@@ -1,17 +1,19 @@
 # Written by Claude Code on 2026-01-29
 # User prompt: Implement FMLA Deadline & Timeline Tracker Prototype
+# Updated on 2026-01-30: Added database support with dependency injection
 
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, status, Depends
 from typing import Optional
+from sqlalchemy.orm import Session
 import uuid
 
 from ...models.notification import Notification, NotificationType
 from ...models.leave_request import LeaveRequest
-from ...storage.json_storage import JSONStorage
+from ...db.database import get_db
+from ...storage.storage_factory import get_storage
 from ...services.notification_service import NotificationService
 
 router = APIRouter(prefix="/api/notifications", tags=["notifications"])
-storage = JSONStorage()
 notification_service = NotificationService()
 
 
@@ -20,13 +22,16 @@ async def create_notification(
     request_id: str,
     notification_type: NotificationType,
     custom_subject: Optional[str] = None,
-    custom_body: Optional[str] = None
+    custom_body: Optional[str] = None,
+    db: Session = Depends(get_db)
 ):
     """
     Create a new notification for a leave request.
 
     Can auto-generate notification content based on type, or use custom content.
     """
+    storage = get_storage(db)
+
     # Get the leave request
     request_data = storage.get_leave_request_by_id(request_id)
     if not request_data:
@@ -112,10 +117,12 @@ async def create_notification(
 
 
 @router.get("/{request_id}", response_model=list[Notification])
-async def get_notifications_for_request(request_id: str):
+async def get_notifications_for_request(request_id: str, db: Session = Depends(get_db)):
     """
     Get all notifications for a specific leave request.
     """
+    storage = get_storage(db)
+
     # Verify request exists
     request_data = storage.get_leave_request_by_id(request_id)
     if not request_data:
@@ -137,7 +144,8 @@ async def get_notifications_for_request(request_id: str):
 @router.get("/", response_model=list[Notification])
 async def get_all_notifications(
     notification_type: Optional[NotificationType] = None,
-    unread_only: bool = False
+    unread_only: bool = False,
+    db: Session = Depends(get_db)
 ):
     """
     Get all notifications with optional filtering.
@@ -146,6 +154,7 @@ async def get_all_notifications(
     - notification_type: Filter by type
     - unread_only: Only return unread notifications
     """
+    storage = get_storage(db)
     notifications_data = storage.get_all_notifications()
     notifications = [Notification(**data) for data in notifications_data]
 
@@ -163,10 +172,16 @@ async def get_all_notifications(
 
 
 @router.patch("/{notification_id}", response_model=Notification)
-async def update_notification(notification_id: str, read_status: bool):
+async def update_notification(
+    notification_id: str,
+    read_status: bool,
+    db: Session = Depends(get_db)
+):
     """
     Update notification read status.
     """
+    storage = get_storage(db)
+
     if read_status:
         updated = storage.mark_notification_as_read(notification_id)
     else:
@@ -182,10 +197,11 @@ async def update_notification(notification_id: str, read_status: bool):
 
 
 @router.delete("/{notification_id}", status_code=status.HTTP_204_NO_CONTENT)
-async def delete_notification(notification_id: str):
+async def delete_notification(notification_id: str, db: Session = Depends(get_db)):
     """
     Delete a notification.
     """
+    storage = get_storage(db)
     success = storage.delete_notification(notification_id)
 
     if not success:

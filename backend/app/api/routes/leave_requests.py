@@ -1,25 +1,32 @@
 # Written by Claude Code on 2026-01-29
 # User prompt: Implement FMLA Deadline & Timeline Tracker Prototype
+# Updated on 2026-01-30: Added database support with dependency injection
 
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, status, Depends
 from typing import Optional
+from sqlalchemy.orm import Session
 import uuid
 from datetime import date
 
 from ...models.leave_request import LeaveRequest, LeaveRequestCreate, LeaveStatus
-from ...storage.json_storage import JSONStorage
+from ...db.database import get_db
+from ...storage.storage_factory import get_storage
 
 router = APIRouter(prefix="/api/leave-requests", tags=["leave-requests"])
-storage = JSONStorage()
 
 
 @router.post("/", response_model=LeaveRequest, status_code=status.HTTP_201_CREATED)
-async def create_leave_request(request: LeaveRequestCreate):
+async def create_leave_request(
+    request: LeaveRequestCreate,
+    db: Session = Depends(get_db)
+):
     """
     Create a new FMLA leave request.
 
     Accepts JSON with employee, leave, and medical provider information.
     """
+    storage = get_storage(db)
+
     # Generate ID
     request_id = f"req-{uuid.uuid4().hex[:8]}"
 
@@ -41,7 +48,7 @@ async def create_leave_request(request: LeaveRequestCreate):
     # Convert to dict for storage
     request_dict = full_request.model_dump(mode='json')
 
-    # Store in JSON file
+    # Store in database or JSON file (based on settings)
     storage.create_leave_request(request_dict)
 
     return full_request
@@ -50,7 +57,8 @@ async def create_leave_request(request: LeaveRequestCreate):
 @router.get("/", response_model=list[LeaveRequest])
 async def get_all_leave_requests(
     status_filter: Optional[LeaveStatus] = None,
-    at_risk_only: bool = False
+    at_risk_only: bool = False,
+    db: Session = Depends(get_db)
 ):
     """
     Get all leave requests with optional filtering.
@@ -59,6 +67,7 @@ async def get_all_leave_requests(
     - status_filter: Filter by status (pending, approved, denied, awaiting_docs)
     - at_risk_only: Only return requests with approaching/overdue deadlines
     """
+    storage = get_storage(db)
     requests_data = storage.get_all_leave_requests()
     requests = [LeaveRequest(**data) for data in requests_data]
 
@@ -79,10 +88,11 @@ async def get_all_leave_requests(
 
 
 @router.get("/{request_id}", response_model=LeaveRequest)
-async def get_leave_request(request_id: str):
+async def get_leave_request(request_id: str, db: Session = Depends(get_db)):
     """
     Get a specific leave request by ID.
     """
+    storage = get_storage(db)
     request_data = storage.get_leave_request_by_id(request_id)
 
     if not request_data:
@@ -95,12 +105,18 @@ async def get_leave_request(request_id: str):
 
 
 @router.patch("/{request_id}", response_model=LeaveRequest)
-async def update_leave_request(request_id: str, updates: dict):
+async def update_leave_request(
+    request_id: str,
+    updates: dict,
+    db: Session = Depends(get_db)
+):
     """
     Update a leave request.
 
     Can update status, compliance flags, or other fields.
     """
+    storage = get_storage(db)
+
     # Verify request exists
     existing = storage.get_leave_request_by_id(request_id)
     if not existing:
@@ -116,10 +132,11 @@ async def update_leave_request(request_id: str, updates: dict):
 
 
 @router.delete("/{request_id}", status_code=status.HTTP_204_NO_CONTENT)
-async def delete_leave_request(request_id: str):
+async def delete_leave_request(request_id: str, db: Session = Depends(get_db)):
     """
     Delete a leave request.
     """
+    storage = get_storage(db)
     success = storage.delete_leave_request(request_id)
 
     if not success:
