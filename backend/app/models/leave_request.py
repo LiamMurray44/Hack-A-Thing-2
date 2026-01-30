@@ -63,6 +63,10 @@ class LeaveRequestCreate(BaseModel):
         default_factory=list,
         description="List of compliance issues (e.g., 'missing_physician_phone')"
     )
+    fmla_eligible: bool = Field(
+        default=True,
+        description="Whether employee is eligible for FMLA"
+    )
     status: LeaveStatus = Field(
         default=LeaveStatus.PENDING,
         description="Current status of the request"
@@ -83,6 +87,10 @@ class LeaveRequest(BaseModel):
     compliance_flags: list[str] = Field(
         default_factory=list,
         description="List of compliance issues (e.g., 'missing_physician_phone')"
+    )
+    fmla_eligible: bool = Field(
+        default=True,
+        description="Whether employee is eligible for FMLA"
     )
     status: LeaveStatus = Field(
         default=LeaveStatus.PENDING,

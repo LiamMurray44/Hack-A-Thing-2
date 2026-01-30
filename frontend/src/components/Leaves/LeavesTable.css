@@ -1,0 +1,177 @@
+/* Written by Claude Code on 2026-01-29
+   User prompt: Create styles for leaves table */
+
+.leaves-table-container {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  overflow-x: auto;
+}
+
+.leaves-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.leaves-table thead {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+}
+
+.leaves-table thead th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.813rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.leaves-table tbody tr {
+  border-bottom: 1px solid #e5e7eb;
+  transition: background-color 0.2s ease;
+}
+
+.leaves-table tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+.leaves-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.leaves-table td {
+  padding: 1rem;
+  color: #374151;
+}
+
+.employee-name {
+  font-weight: 600;
+  color: #111827;
+}
+
+.location {
+  font-weight: 500;
+  color: #6b7280;
+  text-transform: uppercase;
+}
+
+.leave-stage {
+  display: inline-block;
+  padding: 0.375rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.stage-pre-leave {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.stage-on-leave {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.stage-returned {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.fmla-badge {
+  display: inline-block;
+  padding: 0.375rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.fmla-badge.eligible {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.fmla-badge.not-eligible {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.request-status {
+  display: inline-block;
+  padding: 0.375rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.status-pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-approved {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.status-denied {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.status-awaiting {
+  background: #fbcfe8;
+  color: #831843;
+}
+
+.btn-view-details {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.813rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-view-details:hover {
+  background: #2563eb;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);
+}
+
+.btn-view-details:active {
+  transform: translateY(0);
+}
+
+.leaves-table-empty {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #6b7280;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.leaves-table-empty p {
+  margin: 0;
+  font-size: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .leaves-table-container {
+    overflow-x: scroll;
+  }
+
+  .leaves-table {
+    min-width: 900px;
+  }
+}

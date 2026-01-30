@@ -9,6 +9,7 @@ import LeaveRequestForm from '../LeaveRequest/LeaveRequestForm';
 import LeaveHistogram from '../Analytics/LeaveHistogram';
 import LeaveBreakdownChart from '../Analytics/LeaveBreakdownChart';
 import PendingLeavesTable from '../Analytics/PendingLeavesTable';
+import LeavesTable from '../Leaves/LeavesTable';
 import { leaveRequestsAPI, timelineAPI, notificationsAPI } from '../../services/api';
 import { formatDate } from '../../utils/dateFormatter';
 import './Dashboard.css';
@@ -174,110 +175,89 @@ const Dashboard = () => {
 
               {showForm ? (
                 <LeaveRequestForm onSuccess={handleCreateSuccess} />
-              ) : (
-                <div className="leaves-content">
-                  {/* Left: Leave Requests List */}
-                  <aside className="leaves-sidebar">
-                    <h3>All Leave Requests ({leaveRequests.length})</h3>
-                    {leaveRequests.length === 0 ? (
-                      <div className="sidebar-empty">No leave requests yet</div>
-                    ) : (
-                      <div className="request-list">
-                        {leaveRequests.map((req) => (
-                          <div
-                            key={req.id}
-                            className={`request-item ${selectedRequest?.id === req.id ? 'active' : ''}`}
-                            onClick={() => setSelectedRequest(req)}
-                          >
-                            <div className="request-name">{req.employee.name}</div>
-                            <div className="request-dates">
-                              {formatDate(req.leave.start_date)} - {formatDate(req.leave.end_date)}
-                            </div>
-                            <span className={`request-status ${getStatusBadgeClass(req.status)}`}>
-                              {req.status}
-                            </span>
+              ) : selectedRequest ? (
+                /* Detail View */
+                <div className="leaves-detail-view">
+                  <button
+                    className="btn-back"
+                    onClick={() => setSelectedRequest(null)}
+                  >
+                    ← Back to All Leaves
+                  </button>
+
+                  <div className="request-details">
+                    <h2>{selectedRequest.employee.name}</h2>
+                    <div className="request-meta">
+                      <span>SSN: ***-**-{selectedRequest.employee.ssn_last4}</span>
+                      <span>Phone: {selectedRequest.employee.phone}</span>
+                      {selectedRequest.employee.email && (
+                        <span>Email: {selectedRequest.employee.email}</span>
+                      )}
+                      <span>Location: {selectedRequest.employee.state}</span>
+                      <span>FMLA Eligible: {selectedRequest.fmla_eligible ? 'Yes' : 'No'}</span>
+                    </div>
+                  </div>
+
+                  {compliance && <AlertBanner compliance={compliance} />}
+
+                  <div className="tabs">
+                    <button
+                      className={`tab ${leavesTab === 'timeline' ? 'active' : ''}`}
+                      onClick={() => setLeavesTab('timeline')}
+                    >
+                      Timeline
+                    </button>
+                    <button
+                      className={`tab ${leavesTab === 'notifications' ? 'active' : ''}`}
+                      onClick={() => setLeavesTab('notifications')}
+                    >
+                      Notifications
+                    </button>
+                  </div>
+
+                  <div className="tab-content">
+                    {leavesTab === 'timeline' && (
+                      <div>
+                        <Timeline
+                          events={timeline}
+                          leaveStartDate={selectedRequest.leave.start_date}
+                          leaveEndDate={selectedRequest.leave.end_date}
+                        />
+
+                        <div className="notification-triggers">
+                          <h4>Send Test Notifications</h4>
+                          <div className="trigger-buttons">
+                            <button onClick={() => handleSendNotification('certification_due')}>
+                              Certification Due
+                            </button>
+                            <button onClick={() => handleSendNotification('cure_window')}>
+                              Cure Window
+                            </button>
+                            <button onClick={() => handleSendNotification('recertification_due')}>
+                              Recertification
+                            </button>
+                            <button onClick={() => handleSendNotification('approval_notice')}>
+                              Approval
+                            </button>
+                            <button onClick={() => handleSendNotification('missing_docs')}>
+                              Missing Docs
+                            </button>
                           </div>
-                        ))}
+                        </div>
                       </div>
                     )}
-                  </aside>
 
-                  {/* Right: Selected Leave Details */}
-                  <div className="leaves-main">
-                    {selectedRequest ? (
-                      <>
-                        <div className="request-details">
-                          <h2>{selectedRequest.employee.name}</h2>
-                          <div className="request-meta">
-                            <span>SSN: ***-**-{selectedRequest.employee.ssn_last4}</span>
-                            <span>Phone: {selectedRequest.employee.phone}</span>
-                            {selectedRequest.employee.email && (
-                              <span>Email: {selectedRequest.employee.email}</span>
-                            )}
-                          </div>
-                        </div>
-
-                        {compliance && <AlertBanner compliance={compliance} />}
-
-                        <div className="tabs">
-                          <button
-                            className={`tab ${leavesTab === 'timeline' ? 'active' : ''}`}
-                            onClick={() => setLeavesTab('timeline')}
-                          >
-                            Timeline
-                          </button>
-                          <button
-                            className={`tab ${leavesTab === 'notifications' ? 'active' : ''}`}
-                            onClick={() => setLeavesTab('notifications')}
-                          >
-                            Notifications
-                          </button>
-                        </div>
-
-                        <div className="tab-content">
-                          {leavesTab === 'timeline' && (
-                            <div>
-                              <Timeline
-                                events={timeline}
-                                leaveStartDate={selectedRequest.leave.start_date}
-                                leaveEndDate={selectedRequest.leave.end_date}
-                              />
-
-                              <div className="notification-triggers">
-                                <h4>Send Test Notifications</h4>
-                                <div className="trigger-buttons">
-                                  <button onClick={() => handleSendNotification('certification_due')}>
-                                    Certification Due
-                                  </button>
-                                  <button onClick={() => handleSendNotification('cure_window')}>
-                                    Cure Window
-                                  </button>
-                                  <button onClick={() => handleSendNotification('recertification_due')}>
-                                    Recertification
-                                  </button>
-                                  <button onClick={() => handleSendNotification('approval_notice')}>
-                                    Approval
-                                  </button>
-                                  <button onClick={() => handleSendNotification('missing_docs')}>
-                                    Missing Docs
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          )}
-
-                          {leavesTab === 'notifications' && (
-                            <NotificationsList requestId={selectedRequest.id} />
-                          )}
-                        </div>
-                      </>
-                    ) : (
-                      <div className="leaves-empty">
-                        <p>Select a leave request from the list to view details</p>
-                      </div>
+                    {leavesTab === 'notifications' && (
+                      <NotificationsList requestId={selectedRequest.id} />
                     )}
                   </div>
                 </div>
+              ) : (
+                /* Table View */
+                <LeavesTable
+                  leaveRequests={leaveRequests}
+                  onSelectRequest={setSelectedRequest}
+                />
               )}
             </div>
           )}

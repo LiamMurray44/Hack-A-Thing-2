@@ -5,7 +5,7 @@ import React, { useMemo } from 'react';
 import { parseISO, isAfter, isBefore, startOfToday } from 'date-fns';
 import './LeaveBreakdownChart.css';
 
-const LeaveBreakdownChart = ({ leaveRequests }) => {
+const LeaveBreakdownChart = ({ leaveRequests = [] }) => {
   const breakdownData = useMemo(() => {
     const today = startOfToday();
 
@@ -13,21 +13,29 @@ const LeaveBreakdownChart = ({ leaveRequests }) => {
     let onLeave = 0;
     let returnedFromLeave = 0;
 
-    leaveRequests.forEach(req => {
-      const leaveStart = parseISO(req.leave.start_date);
-      const leaveEnd = parseISO(req.leave.end_date);
+    if (Array.isArray(leaveRequests) && leaveRequests.length > 0) {
+      leaveRequests.forEach(req => {
+        try {
+          if (!req?.leave?.start_date || !req?.leave?.end_date) return;
 
-      if (isAfter(leaveStart, today)) {
-        // Leave hasn't started yet
-        preLeave++;
-      } else if (isBefore(leaveEnd, today)) {
-        // Leave has ended
-        returnedFromLeave++;
-      } else {
-        // Currently on leave
-        onLeave++;
-      }
-    });
+          const leaveStart = parseISO(req.leave.start_date);
+          const leaveEnd = parseISO(req.leave.end_date);
+
+          if (isAfter(leaveStart, today)) {
+            // Leave hasn't started yet (strictly in the future)
+            preLeave++;
+          } else if (isBefore(leaveEnd, today)) {
+            // Leave has ended (strictly in the past)
+            returnedFromLeave++;
+          } else {
+            // Currently on leave (includes today if start_date or end_date is today)
+            onLeave++;
+          }
+        } catch (error) {
+          console.error('Error parsing leave dates:', req, error);
+        }
+      });
+    }
 
     const total = preLeave + onLeave + returnedFromLeave;
 

@@ -5,7 +5,8 @@
       "name": "Jane Doe",
       "ssn_last4": "1234",
       "phone": "5555555555",
-      "email": "jane.doe@example.com"
+      "email": "jane.doe@example.com",
+      "state": "CA"
     },
     "leave": {
       "start_date": "2025-02-20",
@@ -22,6 +23,7 @@
     "compliance_flags": [
       "missing_physician_phone"
     ],
+    "fmla_eligible": true,
     "status": "pending",
     "notice_date": "2026-01-29",
     "created_at": "2026-01-29"
@@ -29,10 +31,11 @@
   {
     "id": "req-e37ec0dc",
     "employee": {
-      "name": "Jane Doe",
-      "ssn_last4": "1234",
+      "name": "John Smith",
+      "ssn_last4": "5678",
       "phone": "(555) 555-5555",
-      "email": null
+      "email": "john.smith@example.com",
+      "state": "NY"
     },
     "leave": {
       "start_date": "2026-01-27",
@@ -49,17 +52,19 @@
     "compliance_flags": [
       "missing_physician_phone"
     ],
-    "status": "pending",
+    "fmla_eligible": false,
+    "status": "approved",
     "notice_date": "2026-01-29",
     "created_at": "2026-01-29"
   },
   {
     "id": "req-83bd48fd",
     "employee": {
-      "name": "Jane Doe",
-      "ssn_last4": "1234",
+      "name": "Maria Garcia",
+      "ssn_last4": "9012",
       "phone": "(555) 555-5555",
-      "email": null
+      "email": "maria.garcia@example.com",
+      "state": "TX"
     },
     "leave": {
       "start_date": "2025-10-01",
@@ -76,6 +81,7 @@
     "compliance_flags": [
       "missing_physician_phone"
     ],
+    "fmla_eligible": false,
     "status": "pending",
     "notice_date": "2026-01-29",
     "created_at": "2026-01-29"
@@ -83,10 +89,11 @@
   {
     "id": "req-7ba92748",
     "employee": {
-      "name": "Jane Doe",
-      "ssn_last4": "1234",
+      "name": "Michael Johnson",
+      "ssn_last4": "3456",
       "phone": "(555) 555-5555",
-      "email": null
+      "email": "michael.j@example.com",
+      "state": "FL"
     },
     "leave": {
       "start_date": "2026-10-01",
@@ -95,25 +102,25 @@
       "condition_type": "serious"
     },
     "medical_provider": {
-      "name": "Dr. John Smith",
-      "phone": null,
+      "name": "Dr. Sarah Lee",
+      "phone": "(555) 123-4567",
       "signature_present": true,
       "date_signed": "2025-09-20"
     },
-    "compliance_flags": [
-      "missing_physician_phone"
-    ],
-    "status": "pending",
+    "compliance_flags": [],
+    "fmla_eligible": true,
+    "status": "approved",
     "notice_date": "2026-01-29",
     "created_at": "2026-01-29"
   },
   {
     "id": "req-ba16ae26",
     "employee": {
-      "name": "Jane Doe",
-      "ssn_last4": "1234",
+      "name": "Sarah Chen",
+      "ssn_last4": "7890",
       "phone": "(555) 555-5555",
-      "email": null
+      "email": "sarah.chen@example.com",
+      "state": "WA"
     },
     "leave": {
       "start_date": "2026-05-01",
@@ -122,41 +129,148 @@
       "condition_type": "serious"
     },
     "medical_provider": {
-      "name": "Dr. John Smith",
-      "phone": null,
+      "name": "Dr. Robert Brown",
+      "phone": "(555) 987-6543",
       "signature_present": true,
       "date_signed": "2025-09-20"
     },
-    "compliance_flags": [
-      "missing_physician_phone"
-    ],
-    "status": "pending",
+    "compliance_flags": [],
+    "fmla_eligible": false,
+    "status": "approved",
     "notice_date": "2026-01-29",
     "created_at": "2026-01-29"
   },
   {
     "id": "req-d414fca7",
     "employee": {
-      "name": "Jane Doe",
-      "ssn_last4": "1234",
+      "name": "David Williams",
+      "ssn_last4": "2468",
       "phone": "(555) 555-5555",
-      "email": null
+      "email": "david.w@example.com",
+      "state": "IL"
     },
     "leave": {
       "start_date": "2026-10-01",
       "end_date": "2026-12-01",
       "intermittent": false,
-      "condition_type": "serious"
+      "condition_type": "chronic"
     },
     "medical_provider": {
-      "name": "Dr. John Smith",
-      "phone": null,
+      "name": "Dr. Emily White",
+      "phone": "(555) 246-8135",
       "signature_present": true,
       "date_signed": "2025-09-20"
     },
-    "compliance_flags": [
-      "missing_physician_phone"
-    ],
+    "compliance_flags": [],
+    "fmla_eligible": true,
+    "status": "awaiting_docs",
+    "notice_date": "2026-01-29",
+    "created_at": "2026-01-29"
+  },
+  {
+    "id": "req-8f5a3c1b",
+    "employee": {
+      "name": "Amanda Rodriguez",
+      "ssn_last4": "5792",
+      "phone": "(555) 444-3333",
+      "email": "amanda.r@example.com",
+      "state": "AZ"
+    },
+    "leave": {
+      "start_date": "2026-03-15",
+      "end_date": "2026-05-20",
+      "intermittent": true,
+      "condition_type": "chronic"
+    },
+    "medical_provider": {
+      "name": "Dr. Michael Chen",
+      "phone": "(555) 321-9876",
+      "signature_present": true,
+      "date_signed": "2026-03-01"
+    },
+    "compliance_flags": [],
+    "fmla_eligible": false,
+    "status": "pending",
+    "notice_date": "2026-01-29",
+    "created_at": "2026-01-29"
+  },
+  {
+    "id": "req-2b9c7e4d",
+    "employee": {
+      "name": "Robert Taylor",
+      "ssn_last4": "8136",
+      "phone": "(555) 222-1111",
+      "email": "robert.taylor@example.com",
+      "state": "OH"
+    },
+    "leave": {
+      "start_date": "2026-06-10",
+      "end_date": "2026-08-15",
+      "intermittent": false,
+      "condition_type": "serious"
+    },
+    "medical_provider": {
+      "name": "Dr. Jennifer Martinez",
+      "phone": "(555) 789-4561",
+      "signature_present": true,
+      "date_signed": "2026-06-01"
+    },
+    "compliance_flags": [],
+    "fmla_eligible": true,
+    "status": "approved",
+    "notice_date": "2026-01-29",
+    "created_at": "2026-01-29"
+  },
+  {
+    "id": "req-3d8f1a2c",
+    "employee": {
+      "name": "Lisa Anderson",
+      "ssn_last4": "4729",
+      "phone": "(555) 888-7777",
+      "email": "lisa.anderson@example.com",
+      "state": "MA"
+    },
+    "leave": {
+      "start_date": "2026-02-05",
+      "end_date": "2026-03-20",
+      "intermittent": false,
+      "condition_type": "serious"
+    },
+    "medical_provider": {
+      "name": "Dr. Thomas Wilson",
+      "phone": "(555) 654-3210",
+      "signature_present": true,
+      "date_signed": "2026-01-25"
+    },
+    "compliance_flags": [],
+    "fmla_eligible": false,
+    "status": "denied",
+    "notice_date": "2026-01-29",
+    "created_at": "2026-01-29"
+  },
+  {
+    "id": "req-9e2a5f8b",
+    "employee": {
+      "name": "Kevin Patel",
+      "ssn_last4": "6381",
+      "phone": "(555) 999-0000",
+      "email": "kevin.patel@example.com",
+      "state": "GA"
+    },
+    "leave": {
+      "start_date": "2026-08-01",
+      "end_date": "2026-10-15",
+      "intermittent": false,
+      "condition_type": "serious"
+    },
+    "medical_provider": {
+      "name": "Dr. Patricia Davis",
+      "phone": "(555) 147-2583",
+      "signature_present": true,
+      "date_signed": "2026-07-20"
+    },
+    "compliance_flags": [],
+    "fmla_eligible": true,
     "status": "pending",
     "notice_date": "2026-01-29",
     "created_at": "2026-01-29"

@@ -2,11 +2,28 @@
 // User prompt: Create histogram showing upcoming leaves by month (all 12 months)
 
 import React, { useMemo } from 'react';
-import { format, parseISO, isAfter, startOfToday, addMonths, startOfMonth } from 'date-fns';
+import { format, parseISO, isAfter, isSameDay, startOfToday, addMonths, startOfMonth } from 'date-fns';
 import './LeaveHistogram.css';
 
-const LeaveHistogram = ({ leaveRequests }) => {
+const LeaveHistogram = ({ leaveRequests = [] }) => {
   const histogramData = useMemo(() => {
+    if (!Array.isArray(leaveRequests) || leaveRequests.length === 0) {
+      // Return empty histogram data if no requests
+      const today = startOfToday();
+      const currentMonthStart = startOfMonth(today);
+      const allMonths = [];
+      for (let i = 0; i < 12; i++) {
+        const monthDate = addMonths(currentMonthStart, i);
+        allMonths.push({
+          monthKey: format(monthDate, 'yyyy-MM'),
+          label: format(monthDate, 'MMM yyyy'),
+          count: 0,
+          leaves: []
+        });
+      }
+      return allMonths;
+    }
+
     const today = startOfToday();
     const currentMonthStart = startOfMonth(today);
 
@@ -25,21 +42,32 @@ const LeaveHistogram = ({ leaveRequests }) => {
       });
     }
 
-    // Filter for upcoming leaves only (start date is in the future)
+    // Filter for upcoming leaves only (start date is today or in the future)
     const upcomingLeaves = leaveRequests.filter(req => {
-      const leaveStart = parseISO(req.leave.start_date);
-      return isAfter(leaveStart, today);
+      try {
+        if (!req?.leave?.start_date) return false;
+        const leaveStart = parseISO(req.leave.start_date);
+        // Include leaves starting today OR after today
+        return isAfter(leaveStart, today) || isSameDay(leaveStart, today);
+      } catch (error) {
+        console.error('Error parsing date:', req?.leave?.start_date, error);
+        return false;
+      }
     });
 
     // Populate counts for months that have leaves
     upcomingLeaves.forEach(req => {
-      const leaveStart = parseISO(req.leave.start_date);
-      const monthKey = format(leaveStart, 'yyyy-MM');
+      try {
+        const leaveStart = parseISO(req.leave.start_date);
+        const monthKey = format(leaveStart, 'yyyy-MM');
 
-      const monthData = allMonths.find(m => m.monthKey === monthKey);
-      if (monthData) {
-        monthData.count += 1;
-        monthData.leaves.push(req);
+        const monthData = allMonths.find(m => m.monthKey === monthKey);
+        if (monthData) {
+          monthData.count += 1;
+          monthData.leaves.push(req);
+        }
+      } catch (error) {
+        console.error('Error processing leave:', req, error);
       }
     });
 
@@ -48,6 +76,12 @@ const LeaveHistogram = ({ leaveRequests }) => {
 
   const maxCount = Math.max(...histogramData.map(d => d.count), 1);
   const totalUpcoming = histogramData.reduce((sum, d) => sum + d.count, 0);
+
+  // Generate y-axis labels (going up by 1)
+  const yAxisLabels = [];
+  for (let i = maxCount; i >= 0; i--) {
+    yAxisLabels.push(i);
+  }
 
   return (
     <div className="histogram-container">
@@ -62,14 +96,14 @@ const LeaveHistogram = ({ leaveRequests }) => {
 
       <div className="histogram-chart">
         <div className="histogram-y-axis">
-          <div className="y-axis-label">{maxCount}</div>
-          <div className="y-axis-label">{Math.ceil(maxCount / 2)}</div>
-          <div className="y-axis-label">0</div>
+          {yAxisLabels.map((label, idx) => (
+            <div key={idx} className="y-axis-label">{label}</div>
+          ))}
         </div>
 
         <div className="histogram-bars">
           {histogramData.map((data, index) => {
-            const heightPercent = data.count > 0 ? Math.max((data.count / maxCount) * 100, 10) : 0;
+            const heightPercent = data.count > 0 ? (data.count / maxCount) * 100 : 0;
             const hasLeaves = data.count > 0;
 
             return (

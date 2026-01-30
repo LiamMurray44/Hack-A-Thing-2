@@ -12,6 +12,7 @@ class Employee(BaseModel):
     ssn_last4: str = Field(..., description="Last 4 digits of SSN")
     phone: str = Field(..., description="Employee phone number")
     email: str | None = Field(None, description="Employee email address")
+    state: str | None = Field(None, description="Employee state/location")
 
     @field_validator("ssn_last4")
     @classmethod
