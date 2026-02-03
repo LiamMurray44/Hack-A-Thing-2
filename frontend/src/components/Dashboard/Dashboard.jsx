@@ -23,6 +23,7 @@ const Dashboard = () => {
   const [mainView, setMainView] = useState('dashboard'); // 'dashboard' | 'leaves'
   const [leavesTab, setLeavesTab] = useState('timeline'); // 'timeline' | 'notifications'
   const [showForm, setShowForm] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   useEffect(() => {
     fetchLeaveRequests();
@@ -116,7 +117,14 @@ const Dashboard = () => {
 
       <div className="dashboard-layout">
         {/* Left Navigation Sidebar */}
-        <aside className="dashboard-nav">
+        <aside className={`dashboard-nav ${sidebarCollapsed ? 'collapsed' : ''}`}>
+          <button
+            className="nav-collapse-btn"
+            onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+            title={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          >
+            {sidebarCollapsed ? '→' : '←'}
+          </button>
           <button
             className={`nav-item ${mainView === 'dashboard' ? 'active' : ''}`}
             onClick={() => setMainView('dashboard')}

@@ -1,5 +1,5 @@
 #!/bin/sh
-'''exec' "/Users/liammurray/Documents/College Files/CS98/Hack-A-Thing-2/backend/venv/bin/python3" "$0" "$@"
+'''exec' "/Users/13-march-21/Desktop/CS 98/Classwork/Hack-A-Thing-2/backend/venv/bin/python3" "$0" "$@"
 ' '''
 # -*- coding: utf-8 -*-
 import re
