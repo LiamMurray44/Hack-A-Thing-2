@@ -63,7 +63,7 @@ body {
   padding: 1rem;
   border-bottom: 1px solid #e5e7eb;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
   min-height: 56px;
 }
