@@ -50,23 +50,27 @@ body {
   width: 200px;
   background: white;
   border-right: 1px solid #e5e7eb;
-  padding: 1rem 0;
   display: flex;
   flex-direction: column;
   transition: width 0.3s ease;
-  position: relative;
 }
 
 .dashboard-nav.collapsed {
   width: 80px;
 }
 
+.nav-header {
+  padding: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  min-height: 56px;
+}
+
 .nav-collapse-btn {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   border-radius: 6px;
   border: 1px solid #e5e7eb;
   background: white;
@@ -75,15 +79,20 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
+  font-size: 1.125rem;
   transition: all 0.2s ease;
-  z-index: 10;
 }
 
 .nav-collapse-btn:hover {
   background: #f9fafb;
   border-color: #3b82f6;
   color: #3b82f6;
+}
+
+.nav-items {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0;
 }
 
 .nav-item {
@@ -426,6 +435,10 @@ body {
     width: 80px;
   }
 
+  .nav-header {
+    display: none;
+  }
+
   .nav-label {
     display: none;
   }
@@ -437,10 +450,6 @@ body {
   .nav-item {
     justify-content: center;
     padding: 1rem;
-  }
-
-  .nav-collapse-btn {
-    display: none;
   }
 
   .dashboard-content {

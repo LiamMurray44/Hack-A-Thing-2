@@ -118,27 +118,31 @@ const Dashboard = () => {
       <div className="dashboard-layout">
         {/* Left Navigation Sidebar */}
         <aside className={`dashboard-nav ${sidebarCollapsed ? 'collapsed' : ''}`}>
-          <button
-            className="nav-collapse-btn"
-            onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-            title={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-          >
-            {sidebarCollapsed ? '→' : '←'}
-          </button>
-          <button
-            className={`nav-item ${mainView === 'dashboard' ? 'active' : ''}`}
-            onClick={() => setMainView('dashboard')}
-          >
-            <span className="nav-icon">📊</span>
-            <span className="nav-label">Dashboard</span>
-          </button>
-          <button
-            className={`nav-item ${mainView === 'leaves' ? 'active' : ''}`}
-            onClick={() => setMainView('leaves')}
-          >
-            <span className="nav-icon">📋</span>
-            <span className="nav-label">Leaves</span>
-          </button>
+          <div className="nav-header">
+            <button
+              className="nav-collapse-btn"
+              onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+              title={sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+            >
+              {sidebarCollapsed ? '→' : '←'}
+            </button>
+          </div>
+          <nav className="nav-items">
+            <button
+              className={`nav-item ${mainView === 'dashboard' ? 'active' : ''}`}
+              onClick={() => setMainView('dashboard')}
+            >
+              <span className="nav-icon">📊</span>
+              <span className="nav-label">Dashboard</span>
+            </button>
+            <button
+              className={`nav-item ${mainView === 'leaves' ? 'active' : ''}`}
+              onClick={() => setMainView('leaves')}
+            >
+              <span className="nav-icon">📋</span>
+              <span className="nav-label">Leaves</span>
+            </button>
+          </nav>
         </aside>
 
         {/* Main Content Area */}
