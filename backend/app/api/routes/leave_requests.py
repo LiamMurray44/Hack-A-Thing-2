@@ -46,7 +46,12 @@ async def create_leave_request(
     )
 
     # Convert to dict for storage
+    # Use mode='json' to serialize nested objects, then restore top-level dates
     request_dict = full_request.model_dump(mode='json')
+
+    # Restore top-level date objects (SQLite Date columns need date objects)
+    request_dict['notice_date'] = notice_date
+    request_dict['created_at'] = date.today()
 
     # Store in database or JSON file (based on settings)
     storage.create_leave_request(request_dict)
