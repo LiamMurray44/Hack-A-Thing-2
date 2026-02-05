@@ -1,0 +1,107 @@
+.dashboard-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 1.5rem 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.dashboard-header-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.dashboard-header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.dashboard-header-title {
+  margin: 0;
+  color: white;
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.role-badge {
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: white;
+}
+
+.role-badge-employee {
+  background-color: rgba(52, 211, 153, 0.9);
+}
+
+.role-badge-manager {
+  background-color: rgba(251, 146, 60, 0.9);
+}
+
+.role-badge-hr_admin {
+  background-color: rgba(59, 130, 246, 0.9);
+}
+
+.dashboard-header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-name {
+  color: white;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.switch-role-button {
+  background-color: white;
+  color: #667eea;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.9rem;
+}
+
+.switch-role-button:hover {
+  background-color: #f8f9fa;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.switch-role-button:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .dashboard-header {
+    padding: 1rem 1.5rem;
+  }
+
+  .dashboard-header-title {
+    font-size: 1.4rem;
+  }
+
+  .dashboard-header-content {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .dashboard-header-left,
+  .dashboard-header-right {
+    justify-content: center;
+  }
+}
+
+/* Written by Claude Code on 2026-02-04 */
+/* User prompt: Implement the following plan: Role-Based Dashboards */

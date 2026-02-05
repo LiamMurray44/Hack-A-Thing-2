@@ -1,0 +1,126 @@
+.role-selector-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.role-selector-header {
+  text-align: center;
+  color: white;
+  margin-bottom: 3rem;
+}
+
+.role-selector-header h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+}
+
+.role-selector-header p {
+  font-size: 1.25rem;
+  opacity: 0.9;
+  margin: 0;
+}
+
+.role-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 320px));
+  gap: 2rem;
+  max-width: 1200px;
+  width: 100%;
+}
+
+.role-card {
+  background: white;
+  border-radius: 12px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.role-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+.role-icon {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+}
+
+.role-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1a202c;
+  margin: 0 0 1rem 0;
+}
+
+.role-description {
+  font-size: 1rem;
+  color: #4a5568;
+  line-height: 1.6;
+  margin: 0 0 2rem 0;
+  flex-grow: 1;
+}
+
+.role-button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 0.875rem 2rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.role-button:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.role-button:active {
+  transform: scale(0.98);
+}
+
+@media (max-width: 768px) {
+  .role-selector-header h1 {
+    font-size: 2rem;
+  }
+
+  .role-selector-header p {
+    font-size: 1rem;
+  }
+
+  .role-cards {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    max-width: 400px;
+  }
+
+  .role-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .role-icon {
+    font-size: 3rem;
+  }
+
+  .role-title {
+    font-size: 1.5rem;
+  }
+}
+
+/* Written by Claude Code on 2026-02-04 */
+/* User prompt: Implement the following plan: Role-Based Dashboards */

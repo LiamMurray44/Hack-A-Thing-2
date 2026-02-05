@@ -1,5 +1,7 @@
 // Written by Claude Code on 2026-01-29
 // User prompt: Restructure with Dashboard and Leaves tabs in left sidebar
+// Modified by Claude Code on 2026-02-04
+// User prompt: Implement the following plan: Role-Based Dashboards
 
 import React, { useState, useEffect } from 'react';
 import Timeline from '../Timeline/Timeline';
@@ -10,11 +12,12 @@ import LeaveHistogram from '../Analytics/LeaveHistogram';
 import LeaveBreakdownChart from '../Analytics/LeaveBreakdownChart';
 import PendingLeavesTable from '../Analytics/PendingLeavesTable';
 import LeavesTable from '../Leaves/LeavesTable';
+import DashboardHeader from '../Shared/DashboardHeader';
 import { leaveRequestsAPI, timelineAPI, notificationsAPI } from '../../services/api';
 import { formatDate } from '../../utils/dateFormatter';
-import './Dashboard.css';
+import './HRAdminDashboard.css';
 
-const Dashboard = () => {
+const HRAdminDashboard = () => {
   const [leaveRequests, setLeaveRequests] = useState([]);
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [timeline, setTimeline] = useState([]);
@@ -110,10 +113,7 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard">
-      <header className="dashboard-header">
-        <h1>FMLA Compliance Tracker</h1>
-        <p>HR Dashboard for Managing Leave Requests</p>
-      </header>
+      <DashboardHeader />
 
       <div className="dashboard-layout">
         {/* Left Navigation Sidebar */}
@@ -279,4 +279,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default HRAdminDashboard;
